@@ -1,0 +1,4 @@
+Flask
+Flask_SQLAlchemy
+matplotlib
+plotly

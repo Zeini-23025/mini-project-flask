@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La page d'affichage</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+<style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: #2c4479;
+            margin-bottom: 10px;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffc107 !important;
+        }
+
+        .search-container input {
+            border-radius: 50px;
+            padding: 10px 20px;
+            border: 1px solid #2c4479;
+            width: 50%;
+            margin: 20px auto;
+        }
+
+        .search-container input:focus {
+            border-color: #0056b3;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        .table {
+            border-radius: 10px;
+            overflow: hidden;
+            width: 95%;
+            margin: 0 auto;
+            margin-bottom:100px ;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table td,
+        .table th {
+            vertical-align: middle;
+        }
+
+        footer {
+            background-color: #2c4479;
+            color: white;
+            padding: 15px 0;
+            width: 100%;
+            /* position: fixed; */
+            bottom: 0;
+            left: 0;
+            height: 60px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .content {
+            /* padding-top: 20px;
+            padding-bottom: 20px; */
+            flex-grow: 1;
+        }
+
+        .btn {
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* Ensure the footer is always at the bottom */
+        html, body {
+            height: 100%;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <div >
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Admin Panel</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('homme') }}">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('clients') }}">Clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('intervenant') }}">Intervenants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('intervention') }}">Interventions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <main class="content">
+        <h2 class="text-center text-primary mt-4">Les Intervenants</h2>
+
+        <div class="search-container">
+            <input class="form-control" style="width: 50%; display: flex; margin-left: auto; margin-right: auto;" type="text" id="search-input" placeholder="Rechercher" onkeyup="searchTable()">
+        </div>
+
+        <script>
+            function searchTable() {
+                var input = document.getElementById("search-input");
+                var filter = input.value.toUpperCase();
+                var table = document.getElementById("myTable");
+                var rows = table.getElementsByTagName("tr");
+
+                for (var i = 1; i < rows.length; i++) {
+                    var cells = rows[i].getElementsByTagName("td");
+                    var found = false;
+
+                    for (var j = 0; j < cells.length; j++) {
+                        var cell = cells[j];
+                        if (cell) {
+                            var cellText = cell.textContent || cell.innerText;
+                            if (cellText.toUpperCase().indexOf(filter) > -1) {
+                                found = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (found) {
+                        rows[i].style.display = "";
+                    } else {
+                        rows[i].style.display = "none";
+                    }
+                }
+            }
+        </script>
+
+        <div class="text-center m-1">
+            <a class="btn btn-primary" href="{{ url_for('intervenant_form') }}">Ajouter</a>
+        </div>
+
+        <div class="container-fluid" style="margin-bottom: 20px;">
+            <table id="myTable" class="table table-hover mt-4 text-center" style="width: 80%; margin: auto;">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Prénom</th>
+                        <th scope="col">Poste</th>
+                        <th scope="col"class="text-center" colspan="2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for Intervenant in Intervenants %}
+                    <tr>
+                        <th scope="row">{{ Intervenant.id }}</th>
+                        <td>{{ Intervenant.nom }}</td>
+                        <td>{{ Intervenant.prenom }}</td>
+                        <td>{{ Intervenant.poste }}</td>
+                        <td>
+                            <a class="btn btn-info" style="color: #fff;" href="{{ url_for('edit_intervenant', intervenant_id=Intervenant.id) }}">
+                                modifier
+                            </a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" href="{{ url_for('delete_intervenant', intervenant_id=Intervenant.id) }}"
+                               onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet intervenant ?')">
+                               supprimer
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <footer class="text-center">
+        <p>&copy; 2024 Zeiny Cheikh & Mohameden Debagh - Tous droits réservés</p>
+    </footer>
+
+    <script src={{ url_for('static', filename='js/main.js')}}></script>
+
+</body>
+
+</html>

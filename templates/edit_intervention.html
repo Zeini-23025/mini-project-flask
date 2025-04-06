@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier une Intervention</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+<body>
+    <div class="container mt-5" style="width: 60%;">
+        <h2>Modifier une Intervention</h2>
+        <form action="{{ url_for('edit_intervention', intervention_id=intervention.id) }}" method="post">
+            <div class="form-group  mb-2">
+                <label for="date">Date:</label>
+                <input type="date" id="date" class="form-control" name="date" value="{{ intervention.date }}" required>
+
+            </div>
+            <div class="form-group  mb-2">
+                <label for="type">Type:</label>
+                <select id="type" name="type" class="form-control" required>
+                    <option value="Soft" {% if intervention.type=='Soft' %}selected{% endif %}>Soft</option>
+                    <option value="Harde" {% if intervention.type=='Harde' %}selected{% endif %}>Harde</option>
+                </select>
+            </div>
+
+            <div class="form-group  mb-2">
+                <label for="motive">Motive:</label>
+                <input type="text" id="motive" class="form-control" name="motive" value="{{ intervention.motive }}"
+                    required>
+
+            </div>
+            <div class="form-group  mb-2">
+                <label for="etat">État:</label>
+                <select id="etat" name="etat" class="form-control" required>
+                    <option value="en attente" {% if intervention.etat=='en attente' %}selected{% endif %}>En attente
+                    </option>
+                    <option value="réalisée" {% if intervention.etat=='réalisée' %}selected{% endif %}>Réalisée</option>
+                </select>
+            </div>
+
+            <div class="form-group  mb-2">
+                <label for="intervenant_id">Intervenant:</label>
+                <select id="intervenant_id" class="form-control" name="intervenant_id" required>
+                    {% for intervenant in intervenants %}
+                    <option value="{{ intervenant.id }}" {% if intervention.intervenant_id==intervenant.id %}selected{%
+                        endif %}>{{ intervenant.nom }} {{ intervenant.prenom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group  mb-2">
+                <label for="client_id">Client:</label>
+                <select id="client_id" class="form-control" name="client_id" required>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}" {% if intervention.client_id==client.id %}selected{% endif %}>{{
+                        client.nom }} {{ client.prenom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="text-center mt-1">
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <a href="{{ url_for('intervention') }}" class="btn btn-secondary">Modifier</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

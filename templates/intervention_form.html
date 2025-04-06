@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une Intervention</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+</head>
+
+<body>
+    <div class="container mt-5" style="width: 60%;">
+        <h2>Ajouter une Intervention</h2>
+        <form action="{{ url_for('add_intervention') }}" method="post">
+            <div class="form-group mb-2">
+                <label for="date">Date:</label>
+                <input type="date" class="form-control" id="date" name="date" required>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="type">Type:</label>
+                <select class="form-control" id="type" name="type" required>
+                    <option value="Soft">Soft</option>
+                    <option value="Harde">Harde</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="motive">Motive:</label>
+                <input type="text" class="form-control" id="motive" name="motive" required>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="etat">État:</label>
+                <select id="etat" class="form-control" name="etat" required>
+                    <option value="en attente">En attente</option>
+                    <option value="réalisée">Réalisée</option>
+                </select>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="intervenant_id">Intervenant:</label>
+                <select id="intervenant_id" class="form-control" name="intervenant_id" required>
+                    {% for intervenant in intervenants %}
+                    <option value="{{ intervenant.id }}">{{ intervenant.nom }} {{ intervenant.prenom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group mb-2">
+                <label for="client_id">Client:</label>
+                <select id="client_id" class="form-control" name="client_id" required>
+                    {% for client in clients %}
+                    <option value="{{ client.id }}">{{ client.nom }} {{ client.prenom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="text-center mt-1">
+                <button type="submit" class="btn btn-primary">Ajouter</button>
+                <a href="{{ url_for('intervention') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

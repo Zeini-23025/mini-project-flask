@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <title>Page d'Accueil - Admin</title>
+    <style>
+        body {
+            background-color: #f4f4f9;
+        }
+
+        .navbar {
+            background-color: #2c4479;
+            margin-bottom: 30px;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #ffc107 !important;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #007bff;
+            color: white;
+            padding: 80px 0;
+        }
+
+
+        .card-custom {
+            transition: transform 0.3s ease;
+        }
+
+        .card-custom:hover {
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #2c4479;
+            color: white;
+            padding: 10px 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+            height: 40px;
+        }
+
+
+        .card-body {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <!-- Navbar fixed at top -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Admin Panel</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('clients') }}">Clients</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('intervenant') }}">Intervenants</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('intervention') }}">Interventions</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <section class="hero-section text-center text-white">
+            <h1>Bienvenue dans le Panneau d'Administration</h1>
+            <p>Gérez vos clients, intervenants et interventions en toute simplicité.</p>
+        </section>
+
+        <!-- Main Content Area -->
+        <div class="container py-5">
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <!-- Clients Card -->
+                <div class="col">
+                    <div class="card h-100 card-custom shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Clients</h5>
+                            <p class="card-text">Consultez et gérez les informations de vos clients.</p>
+                            <a href="{{ url_for('clients') }}" class="btn btn-primary">Voir les clients</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intervenants Card -->
+                <div class="col">
+                    <div class="card h-100 card-custom shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Intervenants</h5>
+                            <p class="card-text">Gérez les intervenants et leurs disponibilités.</p>
+                            <a href="{{ url_for('intervenant') }}" class="btn btn-primary">Voir les intervenants</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Interventions Card -->
+                <div class="col">
+                    <div class="card h-100 card-custom shadow-sm">
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Interventions</h5>
+                            <p class="card-text">Suivez et gérez les interventions en cours et réalisées .</p>
+                            <a href="{{ url_for('intervention') }}" class="btn btn-primary">Voir les interventions</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center">
+            <p>&copy; 2024 Zeiny Cheikh & Mohameden Debagh - Tous droits réservés</p>
+        </footer>
+    </div>
+
+    <script src={{ url_for('static', filename='js/main.js')}}></script>
+</body>
+
+</html>
